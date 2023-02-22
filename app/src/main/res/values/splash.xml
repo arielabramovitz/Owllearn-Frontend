@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.OwlLearn.Splashscreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/back</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/owl</item>
+        <item name="postSplashScreenTheme">@style/Theme.OwlLearn</item>
+        <item name="windowSplashScreenAnimationDuration">3</item>
+    </style>
+</resources>
