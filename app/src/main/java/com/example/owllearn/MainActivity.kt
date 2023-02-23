@@ -28,8 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
+        val splash = installSplashScreen()
+        Thread.sleep(3000)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val drawerLayout: DrawerLayout = binding.drawerLayout

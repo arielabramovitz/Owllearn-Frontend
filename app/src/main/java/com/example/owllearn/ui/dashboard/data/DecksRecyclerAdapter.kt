@@ -1,10 +1,12 @@
 package com.example.gallery
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -16,10 +18,9 @@ import com.example.owllearn.ui.dashboard.data.model.DeckPreview
 
 class DeckPreviewAdapter (private val binding: FragmentDashboardBinding):
     ListAdapter<DeckPreview, DeckPreviewAdapter.DeckPreviewViewHolder>(DiffCallback()) {
-    var onClick: ((DeckPreview) -> Unit)? = null
     private lateinit var itemView: View
-    var currSelectedPos = -1
-    var lastSelectedPos = -1
+    private var lastSelectedView: CardView? = null
+    var lastSelectedPos = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckPreviewViewHolder {
         val v: View = LayoutInflater
@@ -29,36 +30,29 @@ class DeckPreviewAdapter (private val binding: FragmentDashboardBinding):
         return DeckPreviewViewHolder(v)
     }
 
-    private fun selectViewHolder() {
-        binding.deckPreviewsRecycler.setBackgroundColor(ContextCompat.getColor(binding.deckPreviews.context, R.color.selected))
-    }
 
-    private fun unselectViewHolder() {
-        binding.deckPreviewsRecycler.setBackgroundColor(ContextCompat.getColor(binding.deckPreviews.context, R.color.not_selected))
-
-    }
 
 
     override fun onBindViewHolder(holder: DeckPreviewViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val card =  holder.itemView.findViewById<CardView>(R.id.deck_preview)
+        if (position == 0) {
+            card.setCardBackgroundColor(ContextCompat.getColor(binding.deckPreviews.context, R.color.selected))
+            lastSelectedView = card
+        }
         holder.itemView.setOnClickListener {
-            onClick?.invoke(getItem(position))
+            card.setCardBackgroundColor(ContextCompat.getColor(binding.deckPreviews.context, R.color.selected))
+
+            lastSelectedView?.setCardBackgroundColor(ContextCompat.getColor(binding.deckPreviews.context, R.color.back))
+            lastSelectedView = card
+            lastSelectedPos = position
         }
-        itemView.setOnClickListener {
-            currSelectedPos = position
-            if(lastSelectedPos == -1)
-                lastSelectedPos = currSelectedPos
-            else {
-                notifyItemChanged(lastSelectedPos)
-                lastSelectedPos = currSelectedPos
-            }
-            notifyItemChanged(currSelectedPos)
-        }
+        holder.bind(getItem(position))
     }
 
     inner class DeckPreviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView: TextView = itemView.findViewById(R.id.deck_preview_text)
         fun bind(item: DeckPreview?) {
+
             textView.text = item?.deckName
         }
 

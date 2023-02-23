@@ -1,9 +1,11 @@
 package com.example.owllearn.ui.dashboard
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,18 +30,24 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val titleView = binding.title
+        val menuButton = binding.menuButton
         titleView.text = String.format(resources.getString(R.string.title), resources.getString(R.string.username))
         deckPreviewRecycler = binding.deckPreviewsRecycler
         deckStatRecycler = binding.deckStatsRecycler
         setupDecksPreviewRecycler()
+        menuButton.setOnClickListener {
+            when (binding) {
+
+            }
+        }
         return root
     }
 
-    fun setupDecksPreviewRecycler() {
+    private fun setupDecksPreviewRecycler() {
         val adapter = DeckPreviewAdapter(binding)
+
         deckPreviewRecycler.adapter = adapter
         deckPreviewRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-
         decksPreviewViewModel._decks.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
