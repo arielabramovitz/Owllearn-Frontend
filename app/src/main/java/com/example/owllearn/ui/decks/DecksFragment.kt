@@ -1,4 +1,4 @@
-package com.example.owllearn.ui.study
+package com.example.owllearn.ui.decks
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.owllearn.databinding.FragmentStudyBinding
+import com.example.owllearn.databinding.FragmentDecksBinding
+import com.example.owllearn.ui.study.DecksViewModel
 
-class StudyFragment : Fragment() {
+class DecksFragment : Fragment() {
 
-private var _binding: FragmentStudyBinding? = null
+private var _binding: FragmentDecksBinding? = null
   // This property is only valid between onCreateView and
   // onDestroyView.
   private val binding get() = _binding!!
@@ -21,16 +22,12 @@ private var _binding: FragmentStudyBinding? = null
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    val studyViewModel =
+    val decksViewModel =
             ViewModelProvider(this).get(DecksViewModel::class.java)
 
-    _binding = FragmentStudyBinding.inflate(inflater, container, false)
+    _binding = FragmentDecksBinding.inflate(inflater, container, false)
     val root: View = binding.root
 
-    val textView: TextView = binding.textHome
-    studyViewModel.text.observe(viewLifecycleOwner) {
-      textView.text = it
-    }
     return root
   }
 

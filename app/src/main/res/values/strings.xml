@@ -9,6 +9,7 @@
 
     <string name="menu_dashboard">Dashboard</string>
     <string name="menu_study">Study</string>
+    <string name="menu_decks">Decks</string>
 
     <string name="username">user</string>
     <string name="title">What are we studying for, %s?</string>
@@ -22,5 +23,29 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_splashscreen">SplashscreenActivity</string>
+    <string name="title_activity_profile_creation">ProfileCreationActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="onboard_welcome">Welcome!</string>
+    <string name="first_name_hint">Enter your first name</string>
+    <string name="last_name_hint">Enter your last name</string>
+    <string name="first_name_text">First Name:</string>
+    <string name="last_name_text">Last Name:</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="email_text">Email:</string>
+    <string name="user_creation_submit">Submit</string>
+    <string name="reg_facebook">Use facebook instead</string>
+    <string name="greeting">first timer?</string>
+
+
+    <string name="bad_form">There seems to be a problem with the form.. Did you fill all of the fields?</string>
+
+    <string name="facebook_app_id">3273282259601774</string>
+    <string name="fb_login_protocol_scheme">fb3273282259601774</string>
+    <string name="facebook_client_token">5364174b4c83771356cdd7ffc14c5899</string>
 
 </resources>

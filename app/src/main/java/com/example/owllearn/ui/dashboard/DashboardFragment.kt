@@ -28,18 +28,12 @@ class DashboardFragment : Fragment() {
         decksPreviewViewModel = ViewModelProvider(this)[DecksPreviewViewModel::class.java]
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+
         val root: View = binding.root
-        val titleView = binding.title
-        val menuButton = binding.menuButton
-        titleView.text = String.format(resources.getString(R.string.title), resources.getString(R.string.username))
         deckPreviewRecycler = binding.deckPreviewsRecycler
         deckStatRecycler = binding.deckStatsRecycler
         setupDecksPreviewRecycler()
-        menuButton.setOnClickListener {
-            when (binding) {
 
-            }
-        }
         return root
     }
 

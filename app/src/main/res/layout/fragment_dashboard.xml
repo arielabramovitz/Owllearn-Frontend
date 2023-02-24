@@ -9,35 +9,21 @@
     android:fitsSystemWindows="true">
 
 
-    <LinearLayout
-        android:id="@+id/title_bar"
+
+
+    <TextView
+        android:id="@+id/dashboard_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/title"
+        android:text="@string/title"
+        android:textSize="36sp"
+        android:gravity="center"
+        />
 
-        <ImageButton
-            android:id="@+id/menu_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_menu"
-            android:layout_margin="10dp"
-            android:background="@color/back"
-            android:scaleType="fitXY"
-            />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/title"
-            android:text="@string/title"
-            android:textSize="36sp"
-            />
-
-    </LinearLayout>
 
 
     <com.google.android.material.card.MaterialCardView
@@ -45,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_bar"
+        app:layout_constraintTop_toBottomOf="@+id/dashboard_title"
         app:cardCornerRadius="30dp"
         android:layout_margin="10dp"
         app:cardElevation="10dp"
