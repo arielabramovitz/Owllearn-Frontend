@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment"
     android:background="@color/back"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    >
 
 
 

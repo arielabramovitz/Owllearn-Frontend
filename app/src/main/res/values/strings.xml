@@ -42,7 +42,8 @@
     <string name="greeting">first timer?</string>
 
 
-    <string name="bad_form">There seems to be a problem with the form.. Did you fill all of the fields?</string>
+    <string name="bad_form">There seems to be a problem with the form..
+        Did you fill all of the fields?</string>
 
     <string name="facebook_app_id">3273282259601774</string>
     <string name="fb_login_protocol_scheme">fb3273282259601774</string>
