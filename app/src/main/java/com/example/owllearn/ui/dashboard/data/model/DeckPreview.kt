@@ -8,5 +8,5 @@ data class DeckPreview(
     val easyMarked: Int,
     val mediumMarked: Int,
     val hardMarked: Int,
-    val deckId: UUID
+    val deckId: String
 )

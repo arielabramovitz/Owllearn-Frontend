@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.owllearn.databinding.FragmentStudyBinding
+import com.example.owllearn.ui.decks.data.viewmodel.DecksViewModel
 
 class StudyFragment : Fragment() {
 
@@ -28,9 +29,7 @@ private var _binding: FragmentStudyBinding? = null
     val root: View = binding.root
 
     val textView: TextView = binding.textHome
-    studyViewModel.text.observe(viewLifecycleOwner) {
-      textView.text = it
-    }
+
     return root
   }
 

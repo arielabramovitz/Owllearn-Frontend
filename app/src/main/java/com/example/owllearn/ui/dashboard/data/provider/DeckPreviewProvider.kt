@@ -5,13 +5,13 @@ import java.util.*
 
 class DeckPreviewProvider {
     // TODO: Replace mock provider with GET
-    fun getDecks(userId: UUID?): List<DeckPreview> {
+    fun getDecks(userId: String?): List<DeckPreview> {
         return MutableList(4) { DeckPreview(
             "Deck Number $it",
             1,
             1,
             1,
             1,
-            UUID.randomUUID()) }
+            UUID.randomUUID().toString()) }
     }
 }

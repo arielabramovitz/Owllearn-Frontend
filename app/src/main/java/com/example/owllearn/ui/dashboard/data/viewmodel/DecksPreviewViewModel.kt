@@ -18,18 +18,18 @@ class DecksPreviewViewModel (private val application: Application?) : ViewModel(
 
     init {
         // this is where initial user data loading will happen (get deck names from db)
-        reloadDecks()
+        reloadDeckPreviews()
 
     }
 
-    fun reloadDecks() {
+    fun reloadDeckPreviews() {
         val uuid = application?.getSharedPreferences(
             "PREFERENCE", AppCompatActivity.MODE_PRIVATE)
             ?.getString("user_id", null)
 
 
         if (uuid != null) {
-            _decks.value = provider.getDecks(UUID.nameUUIDFromBytes(uuid.toByteArray()))
+            _decks.value = provider.getDecks(UUID.randomUUID().toString())
         }
     }
 

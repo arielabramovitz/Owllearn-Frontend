@@ -14,6 +14,18 @@
             android:id="@+id/action_onboarding_to_dashboard"
             app:destination="@id/nav_dashboard" />
 
+        <argument
+            android:name="front"
+            app:argType="string"
+            android:defaultValue="null"
+            />
+
+        <argument
+            android:name="back"
+            app:argType="string"
+            android:defaultValue="null"
+            />
+
     </fragment>
 
     <fragment
@@ -21,10 +33,6 @@
         android:name="com.example.owllearn.ui.create_edit_card.CreateAndEditCardFragment"
         tools:layout="@layout/fragment_create_and_edit_card"
         >
-
-        <action
-            android:id="@+id/action_onboarding_to_dashboard"
-            app:destination="@id/nav_dashboard" />
 
     </fragment>
 
@@ -38,7 +46,15 @@
         android:id="@+id/nav_decks"
         android:name="com.example.owllearn.ui.decks.DecksFragment"
         android:label="@string/menu_study"
-        tools:layout="@layout/fragment_study" />
+        tools:layout="@layout/fragment_study" >
+
+        <action
+            android:id="@+id/action_decks_to_card_create_edit"
+            app:destination="@id/nav_dashboard" />
+
+
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_study"
