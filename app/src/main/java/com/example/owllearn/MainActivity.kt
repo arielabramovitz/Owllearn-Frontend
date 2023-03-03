@@ -1,12 +1,11 @@
 package com.example.owllearn
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.graphics.Path.Direction
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
+import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -33,161 +32,75 @@ import com.bumptech.glide.Glide
 import com.example.owllearn.databinding.ActivityMainBinding
 import com.example.owllearn.databinding.FragmentDashboardBinding
 import com.example.owllearn.databinding.NavHeaderMainBinding
+import com.example.owllearn.util.consts
 import com.facebook.*
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import org.json.JSONException
 import org.json.JSONObject
+import java.util.*
 import java.util.prefs.Preferences
 import kotlin.concurrent.fixedRateTimer
-import kotlin.math.cbrt
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var preferences: SharedPreferences
+    private var updatedCreds = false
+
     private val FIRST_NAME = "first_name"
     private val LAST_NAME = "last_name"
     private val EMAIL = "email"
     private val PROFILE_PICTURE = "profile_picture"
     private val FIRST_TIME = "first_time"
-
+    private val UID = "user_id"
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val splash = installSplashScreen()
-        Thread.sleep(3000)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        preferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-
-        if (preferences.getBoolean(FIRST_TIME, true)) {
-            // on first launch, go to profile creation form
-            setContentView(R.layout.fragment_onboarding)
-            val submitButton = findViewById<Button>(R.id.submit_button)
-            submitButton.setOnClickListener {
-                if (verifyForm()) {
-                    // TODO: if the form is good, move the user to the dashboard
-                    preferences.edit().putBoolean(FIRST_TIME, false).apply()
-                    afterOnboarding()
-                } else {
-                    // TODO: check that this toast shows if any of the fields are empty
-                    val badFormToast = Toast.makeText(applicationContext, R.string.bad_form, Toast.LENGTH_LONG)
-                    badFormToast.show()
-                }
-            }
-
-            initiateFacebookCallback()
-
-        } else {
-            afterOnboarding()
-        }
-
-
-    }
-
-    private fun initiateFacebookCallback() {
-
-        val callbackManager = CallbackManager.Factory.create()
-        val loginButton = findViewById<LoginButton>(R.id.reg_facebook)
-
-        loginButton.setReadPermissions(listOf("public_profile", "email"))
-        // If you are using in a fragment, call loginButton.setFragment(this)
-
-        // Callback registration
-        loginButton.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-//                Log.d("TAG", loginResult.toString())
-                val token = loginResult.accessToken
-
-                val request = GraphRequest.newMeRequest(token) { obj, response ->
-                    try {
-                        // Save user email to variable
-                        val email = obj!!.getString("email")
-                        val userFirstName = obj.getString("first_name")
-                        val userLastName = obj.getString("last_name")
-                        val profilePic = obj.getJSONObject("picture").getJSONObject("data").getString("url")
-
-                        preferences.edit()
-                            .putString(FIRST_NAME, userFirstName)
-                            .putString(LAST_NAME, userLastName)
-                            .putString(EMAIL, email)
-                            .putString(PROFILE_PICTURE, profilePic).apply()
-
-                        preferences.edit().putBoolean(FIRST_TIME, false).apply()
-                        afterOnboarding()
-                    } catch (e: JSONException) {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Facebook Authentication Failed.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-
-                val parameters = Bundle()
-                parameters.putString("fields", "email,first_name,last_name,picture")
-                request.parameters = parameters
-                request.executeAsync()
-                afterOnboarding()
-            }
-
-            override fun onCancel() {
-                Toast.makeText(this@MainActivity, "Login Cancelled", Toast.LENGTH_LONG).show()
-            }
-
-            override fun onError(exception: FacebookException) {
-                Toast.makeText(this@MainActivity, exception.message, Toast.LENGTH_LONG).show()
-            }
-        })
-    }
-
-    private fun afterOnboarding() {
         setContentView(binding.root)
+        preferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        val userFirstName = preferences.getString(FIRST_NAME, getString(R.string.username))
-        val userLastName = preferences.getString(LAST_NAME, "")
-        val userEmail = preferences.getString(EMAIL, "")
-        val userPicture = preferences.getString(PROFILE_PICTURE, null)
-        val userFullname = "$userFirstName $userLastName"
-
-        findViewById<TextView>(R.id.dashboard_title)?.text =
-            String.format(resources.getString(R.string.title), userFirstName)
-        findViewById<TextView>(R.id.user_full)?.text = userFullname
-        findViewById<TextView>(R.id.header_email)?.text = userEmail
-        val picture = findViewById<ImageView>(R.id.header_image)
-
-        if (userPicture != null) {
-            Glide.with(picture.context)
-                .load(userPicture)
-                .into(picture);
-        }
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_dashboard, R.id.nav_decks, R.id.nav_study
             ), drawerLayout
         )
-
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
 
         navView.setupWithNavController(navController)
-    }
 
-    private fun verifyForm(): Boolean {
-        val firstName = findViewById<EditText>(R.id.first_name_edittext)
-        val lastName = findViewById<EditText>(R.id.last_name_edittext)
 
-        if (firstName.text.isNotEmpty() && lastName.text.isNotEmpty()) {
-            preferences.edit().putString(FIRST_NAME, firstName.text.toString())
-            .putString(LAST_NAME, lastName.text.toString()).apply()
-            return true
+
+        val listener =  object: DrawerLayout.SimpleDrawerListener() {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                if (!updatedCreds) {
+                    updatedCreds = true
+                    val userFirstName = preferences.getString(consts.FIRST_NAME, getString(R.string.username))
+                    val userLastName = preferences.getString(consts.LAST_NAME, "")
+                    val userEmail = preferences.getString(consts.EMAIL, "")
+                    val userPicture = preferences.getString(consts.PROFILE_PICTURE, null)
+                    val userFullname = "$userFirstName $userLastName"
+                    val picture = findViewById<ImageView>(R.id.header_image)
+                    findViewById<TextView>(R.id.user_full)?.text = userFullname
+                    findViewById<TextView>(R.id.header_email)?.text = userEmail
+
+                    if (userPicture != null) {
+                        Glide.with(picture.context)
+                            .load(userPicture)
+                            .into(picture)
+                    }
+                }
+                super.onDrawerSlide(drawerView, slideOffset)
+            }
         }
-        return false
+
+        drawerLayout.addDrawerListener(listener)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

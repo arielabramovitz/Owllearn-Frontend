@@ -3,7 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_dashboard">
+    app:startDestination="@+id/nav_onboarding">
+
+    <fragment
+        android:id="@+id/nav_onboarding"
+        android:name="com.example.owllearn.ui.onboarding.OnboardingFragment"
+        tools:layout="@layout/fragment_onboarding"
+        >
+        <action
+            android:id="@+id/action_onboarding_to_dashboard"
+            app:destination="@id/nav_dashboard" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_card_creation"
+        android:name="com.example.owllearn.ui.create_edit_card.CreateAndEditCardFragment"
+        tools:layout="@layout/fragment_create_and_edit_card"
+        >
+
+        <action
+            android:id="@+id/action_onboarding_to_dashboard"
+            app:destination="@id/nav_dashboard" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_dashboard"

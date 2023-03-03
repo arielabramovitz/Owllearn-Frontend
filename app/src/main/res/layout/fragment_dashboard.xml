@@ -49,9 +49,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_margin="5dp"
-                android:elevation="10dp"
-                />
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:elevation="10dp" />
 
         </RelativeLayout>
 
@@ -77,15 +79,76 @@
 
             >
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/deck_stats_recycler"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:elevation="10dp"
+            <TextView
+                android:id="@+id/preview_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="40dp"
+                android:textSize="30sp"
                 />
+
+            <LinearLayout
+                android:id="@+id/preview_stats"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:dividerPadding="10dp"
+                android:layout_marginTop="40dp"
+                >
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/preview_pie_chart"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginEnd="30dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/unmarked_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unmarked: %s"
+                        android:textSize="20sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/easy_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Easy: %s"
+                        android:textSize="20sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/medium_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Medium: %s"
+                        android:textSize="20sp"
+                        />
+                    <TextView
+                        android:id="@+id/hard_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hard: %s"
+                        android:textSize="20sp"
+                        android:gravity="bottom"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </RelativeLayout>
 

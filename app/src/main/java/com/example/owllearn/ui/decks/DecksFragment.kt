@@ -12,26 +12,22 @@ import com.example.owllearn.ui.study.DecksViewModel
 
 class DecksFragment : Fragment() {
 
-private var _binding: FragmentDecksBinding? = null
-  // This property is only valid between onCreateView and
-  // onDestroyView.
-  private val binding get() = _binding!!
+    private var _binding: FragmentDecksBinding? = null
+    private val binding get() = _binding!!
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View {
-    val decksViewModel =
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val decksViewModel =
             ViewModelProvider(this).get(DecksViewModel::class.java)
 
-    _binding = FragmentDecksBinding.inflate(inflater, container, false)
-    val root: View = binding.root
+        _binding = FragmentDecksBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
-    return root
-  }
 
-override fun onDestroyView() {
+
+        return root
+    }
+
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }

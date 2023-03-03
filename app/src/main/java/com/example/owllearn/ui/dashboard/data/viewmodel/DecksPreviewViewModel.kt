@@ -1,16 +1,19 @@
 package com.example.owllearn.ui.dashboard.data.viewmodel
 
+import android.app.Application
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.owllearn.databinding.FragmentDashboardBinding
 import com.example.owllearn.ui.dashboard.data.provider.DeckPreviewProvider
 import com.example.owllearn.ui.dashboard.data.model.DeckPreview
+import kotlinx.coroutines.flow.combine
+import java.util.*
 
-class DecksPreviewViewModel : ViewModel() {
+class DecksPreviewViewModel (private val application: Application?) : ViewModel() {
      val provider = DeckPreviewProvider()
      val _decks = MutableLiveData<List<DeckPreview>>()
-//    private val _isLoading = MutableStateFlow(true)
-//    val loading = _isLoading.asStateFlow()
     val decks: LiveData<List<DeckPreview>> = _decks
 
     init {
@@ -20,7 +23,14 @@ class DecksPreviewViewModel : ViewModel() {
     }
 
     fun reloadDecks() {
-        _decks.value = provider.getDecks("Test")
+        val uuid = application?.getSharedPreferences(
+            "PREFERENCE", AppCompatActivity.MODE_PRIVATE)
+            ?.getString("user_id", null)
+
+
+        if (uuid != null) {
+            _decks.value = provider.getDecks(UUID.nameUUIDFromBytes(uuid.toByteArray()))
+        }
     }
 
 

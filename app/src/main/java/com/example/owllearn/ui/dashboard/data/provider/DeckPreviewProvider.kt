@@ -4,8 +4,14 @@ import com.example.owllearn.ui.dashboard.data.model.DeckPreview
 import java.util.*
 
 class DeckPreviewProvider {
-
-    fun getDecks(username: String): List<DeckPreview> {
-        return MutableList(4) { DeckPreview("Deck Number $it", UUID.randomUUID()) }
+    // TODO: Replace mock provider with GET
+    fun getDecks(userId: UUID?): List<DeckPreview> {
+        return MutableList(4) { DeckPreview(
+            "Deck Number $it",
+            1,
+            1,
+            1,
+            1,
+            UUID.randomUUID()) }
     }
 }

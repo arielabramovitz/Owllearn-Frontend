@@ -48,5 +48,8 @@
     <string name="facebook_app_id">3273282259601774</string>
     <string name="fb_login_protocol_scheme">fb3273282259601774</string>
     <string name="facebook_client_token">5364174b4c83771356cdd7ffc14c5899</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_edit_title">Deck: %s</string>
 
 </resources>
