@@ -31,14 +31,17 @@ class DashboardFragment : Fragment() {
     private lateinit var decksPreviewViewModel: DecksPreviewViewModel
     private lateinit var deckPreviewRecycler: RecyclerView
     private lateinit var preferences: SharedPreferences
+    private lateinit var userId: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        decksPreviewViewModel = DecksPreviewViewModel(requireActivity().application)
+        preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
+//        userId = preferences.getString(consts.UID, null)!!
+        userId = "user-a"
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        decksPreviewViewModel = DecksPreviewViewModel(userId)
         val root: View = binding.root
 
-        preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
 
         val userFirstName = preferences.getString(consts.FIRST_NAME, getString(R.string.username))
 
@@ -77,6 +80,7 @@ class DashboardFragment : Fragment() {
         deckPreviewRecycler.adapter = adapter
         deckPreviewRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
         decksPreviewViewModel._decks.observe(viewLifecycleOwner) {
+            binding.previewProgress.visibility = View.GONE
             adapter.submitList(it)
         }
     }

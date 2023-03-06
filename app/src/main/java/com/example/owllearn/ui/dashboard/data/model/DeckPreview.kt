@@ -1,12 +1,14 @@
 package com.example.owllearn.ui.dashboard.data.model
 
-import java.util.UUID
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class DeckPreview(
     val deckName: String,
-    val notMarked: Int,
-    val easyMarked: Int,
-    val mediumMarked: Int,
-    val hardMarked: Int,
-    val deckId: String
+    val unmarked: Int,
+    val easy: Int,
+    val medium: Int,
+    val hard: Int,
+    val deckId: String,
+    val userId: String
 )

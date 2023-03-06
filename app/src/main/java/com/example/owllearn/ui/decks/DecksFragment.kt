@@ -31,11 +31,13 @@ class DecksFragment : Fragment() {
     private lateinit var deckRecycler: RecyclerView
     private lateinit var decksViewModel: DecksViewModel
     private lateinit var preferences: SharedPreferences
+    private lateinit var userId: String
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDecksBinding.inflate(inflater, container, false)
         preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
-        val uid = preferences.getString(consts.UID, null)
-        decksViewModel = DecksViewModel(DecksProvider(), uid!!)
+//        userId = preferences.getString(consts.UID, null)!!
+        userId = "user-a"
+        decksViewModel = DecksViewModel(DecksProvider(userId, requireContext()), userId)
         deckRecycler = binding.decksRecycler
         setupRecyclerView()
         setupCreateButton()
@@ -61,10 +63,10 @@ class DecksFragment : Fragment() {
 
             builder.setPositiveButton("Create") { dialog, which ->
                 val itemName = input.text.toString()
-                val newDeck = Deck(itemName, UUID.randomUUID().toString(), emptyList())
-                decksViewModel.addDeck(newDeck)
-                decksViewModel.reloadDecks()
-                // TODO: update database with new empty deck (maybe async)
+                decksViewModel.createDeck(itemName)
+
+//                decksViewModel.reloadDecks()
+
             }
 
             builder.setNegativeButton("Cancel") { dialog, which ->
@@ -85,6 +87,7 @@ class DecksFragment : Fragment() {
         deckRecycler.adapter = adapter
         deckRecycler.layoutManager = gridLayoutManager
         decksViewModel.decks.observe(viewLifecycleOwner) {
+            binding.decksProgress.visibility = View.GONE
             adapter.submitList(it)
         }
     }

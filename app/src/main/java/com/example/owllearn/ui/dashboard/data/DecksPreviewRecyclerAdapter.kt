@@ -46,17 +46,17 @@ class DeckPreviewAdapter(private val binding: FragmentDashboardBinding) :
     private fun fillPieChart(deck: DeckPreview) {
         if (pieChart != null) {
             binding.previewTitle.text = deck.deckName
-            binding.unmarkedText.text = String.format("Unmarked: %d", deck.notMarked)
-            binding.easyText.text = String.format("Easy: %d", deck.easyMarked)
-            binding.mediumText.text = String.format("Medium: %d", deck.mediumMarked)
-            binding.hardText.text = String.format("Hard: %d", deck.hardMarked)
+            binding.unmarkedText.text = String.format("Unmarked: %d", deck.unmarked)
+            binding.easyText.text = String.format("Easy: %d", deck.easy)
+            binding.mediumText.text = String.format("Medium: %d", deck.medium)
+            binding.hardText.text = String.format("Hard: %d", deck.hard)
 
 
             val dataArray = ArrayList<PieEntry>()
-            dataArray.add(PieEntry(deck.notMarked.toFloat()))
-            dataArray.add(PieEntry(deck.easyMarked.toFloat()))
-            dataArray.add(PieEntry(deck.mediumMarked.toFloat()))
-            dataArray.add(PieEntry(deck.hardMarked.toFloat()))
+            dataArray.add(PieEntry(deck.unmarked.toFloat()))
+            dataArray.add(PieEntry(deck.easy.toFloat()))
+            dataArray.add(PieEntry(deck.medium.toFloat()))
+            dataArray.add(PieEntry(deck.hard.toFloat()))
             val dataSet = PieDataSet(dataArray, "")
             dataSet.valueTextSize = 0f
 
