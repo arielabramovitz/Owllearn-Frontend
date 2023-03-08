@@ -1,45 +1,40 @@
 package com.example.owllearn.ui.dashboard
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.drawerlayout.widget.DrawerLayout.SimpleDrawerListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.gallery.DeckPreviewAdapter
 import com.example.owllearn.R
+import com.example.owllearn.data.viewmodel.SharedViewModel
 import com.example.owllearn.databinding.FragmentDashboardBinding
-import com.example.owllearn.ui.dashboard.data.viewmodel.DecksPreviewViewModel
 import com.example.owllearn.util.consts
 
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
-    private lateinit var decksPreviewViewModel: DecksPreviewViewModel
+    private val sharedViewModel: SharedViewModel  by activityViewModels()
     private lateinit var deckPreviewRecycler: RecyclerView
     private lateinit var preferences: SharedPreferences
     private lateinit var userId: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
+        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
 //        userId = preferences.getString(consts.UID, null)!!
-        userId = "user-a"
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        decksPreviewViewModel = DecksPreviewViewModel(userId)
+        userId = "user-for-tests"
+        sharedViewModel.reloadDeckPreviews(userId)
+        sharedViewModel.reloadDecks(userId)
         val root: View = binding.root
 
 
@@ -79,7 +74,7 @@ class DashboardFragment : Fragment() {
 
         deckPreviewRecycler.adapter = adapter
         deckPreviewRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-        decksPreviewViewModel._decks.observe(viewLifecycleOwner) {
+        sharedViewModel.previews.observe(viewLifecycleOwner) {
             binding.previewProgress.visibility = View.GONE
             adapter.submitList(it)
         }

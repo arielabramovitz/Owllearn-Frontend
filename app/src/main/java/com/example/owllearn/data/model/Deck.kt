@@ -1,4 +1,4 @@
-package com.example.owllearn.ui.decks.data.model
+package com.example.owllearn.data.model
 
 import com.squareup.moshi.JsonClass
 import java.util.*
@@ -8,5 +8,5 @@ data class Deck(
     val deckName: String,
     val deckId: String,
     val userId: String,
-    val cards: List<Card>
+    val cards: MutableList<Card> = mutableListOf()
 )

@@ -5,35 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.owllearn.data.viewmodel.SharedViewModel
 import com.example.owllearn.databinding.FragmentStudyBinding
-import com.example.owllearn.ui.decks.data.viewmodel.DecksViewModel
+import com.example.owllearn.ui.decks.data.provider.DecksProvider
+import com.example.owllearn.util.consts
 
 class StudyFragment : Fragment() {
 
-private var _binding: FragmentStudyBinding? = null
-  // This property is only valid between onCreateView and
-  // onDestroyView.
-  private val binding get() = _binding!!
+    private var _binding: FragmentStudyBinding? = null
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View {
-    val studyViewModel =
-            ViewModelProvider(this).get(DecksViewModel::class.java)
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
-    _binding = FragmentStudyBinding.inflate(inflater, container, false)
-    val root: View = binding.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
+        val userId = preferences.getString(consts.UID, null)
 
-    val textView: TextView = binding.textHome
+        _binding = FragmentStudyBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
-    return root
-  }
+        return root
+    }
 
-override fun onDestroyView() {
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }

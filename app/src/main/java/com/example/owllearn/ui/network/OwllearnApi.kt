@@ -1,29 +1,27 @@
 package com.example.owllearn.ui.network
-
-import com.example.gallery.DeckAdapter
-import com.example.gallery.DeckPreviewAdapter
-import com.example.gallery.network.entities.CardResponse
-import com.example.gallery.network.entities.DeckPreviewResponse
-import com.example.gallery.network.entities.DeckResponse
-import com.example.gallery.network.entities.ReqResponse
-import com.example.owllearn.ui.dashboard.data.model.DeckPreview
-import com.example.owllearn.ui.decks.data.model.Card
-import com.example.owllearn.ui.decks.data.model.Deck
+import com.example.gallery.network.entities.ReqBody
+import com.example.owllearn.data.model.DeckPreview
+import com.example.owllearn.data.model.Card
+import com.example.owllearn.data.model.Deck
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONObject
 import retrofit2.Response
 
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
+/**
+ * API for communicating with the REST API on AWS
+ * Some of this API was made with the intention of allowing this
+ * app to be improved later on, and won't be used in the submission.
+ */
 internal interface OwllearnApi {
 
     /**
@@ -41,7 +39,23 @@ internal interface OwllearnApi {
     suspend fun getSingleDeck(
         @Query("userId") userId: String,
         @Query("deckId") deckId: String
-    ): Response<DeckResponse>
+    ): Response<Deck>
+
+    @POST("decks")
+    suspend fun createDeck(
+        @Body body: Deck
+    ): Response<Deck>
+
+    @DELETE("decks")
+    suspend fun deleteDeck(
+        @Query("userId") userId: String,
+        @Query("deckId") deckId: String
+    ): ResponseBody
+
+    @PUT("decks")
+    suspend fun editDeck(
+        @Body body: ReqBody
+    ): Response<Deck>
 
     /**
      * sends a GET request for all cards belonging to a user
@@ -49,16 +63,36 @@ internal interface OwllearnApi {
     @GET("cards")
     suspend fun getAllCards(
         @Query("userId") userId: String
-    ): Response<List<CardResponse>>
+    ): Response<List<Card>>
 
     /**
      * sends a GET request for a single card
      */
     @GET("cards")
     suspend fun getSingleCard(
-        @Query("deckId") userId: String,
-        @Query("cardId") deckId: String
-    ): Response<CardResponse>
+        @Query("userId") userId: String,
+        @Query("deckId") deckId: String,
+        @Query("cardId") cardId: String
+    ): Response<Card>
+
+    @POST("cards")
+    suspend fun createCard(
+        @Query("userId") userId: String,
+        @Body body: Card
+    ): Response<Card>
+
+    @DELETE("cards")
+    suspend fun deleteCard(
+        @Query("userId") userId: String,
+        @Query("deckId") deckId: String,
+        @Query("cardId") cardId: String
+    ): ResponseBody
+
+    @PUT("cards")
+    suspend fun editCard(
+        @Query("userId") userId: String,
+        @Body body: Card
+    ): Response<Card>
 
     /**
      * sends a GET request for all deck previews belonging to a user
@@ -68,35 +102,26 @@ internal interface OwllearnApi {
         @Query("userId") userId: String
     ): Response<List<DeckPreview>>
 
-    @POST("decks")
-    suspend fun createDeck(
-        @Body body: RequestBody
-    ): Response<ReqResponse>
+    @GET("deck-previews")
+    suspend fun getSingleDeckPreviews(
+        @Query("userId") userId: String
+    ): Response<DeckPreview>
 
-    @POST("cards")
-    suspend fun createCard(
-        @Body body: JSONObject
-    ): Response<ReqResponse>
+    @POST("deck-previews")
+    suspend fun createDeckPreview(
+        @Body body: DeckPreview
+    ): Response<DeckPreview>
 
-    @DELETE("decks")
-    suspend fun deleteDeck(
-        @Body body: JSONObject
-    ): Response<ReqResponse>
+    @DELETE("deck-previews")
+    suspend fun deleteCDeckPreview(
+        @Query("deckId") deckId: String,
+        @Query("cardId") cardId: String
+    ): ResponseBody
 
-    @DELETE("cards")
-    suspend fun deleteCard(
-        @Body body: JSONObject
-    ): Response<ReqResponse>
-
-    @PUT("decks")
-    suspend fun editDeck(
-        @Body body: JSONObject
-    ): Response<ReqResponse>
-
-    @PUT("cards")
-    suspend fun editCard(
-        @Body body: JSONObject
-    ): Response<ReqResponse>
+    @PUT("deck-previews")
+    suspend fun editDeckPreview(
+        @Body body: DeckPreview
+    ): Response<DeckPreview>
 
     /**
      * companions needed for the API
@@ -104,9 +129,7 @@ internal interface OwllearnApi {
     companion object {
         private const val BASE_URL = "https://77x0u4uueb.execute-api.us-east-1.amazonaws.com/prod/"
         private lateinit var moshi: Moshi
-        lateinit var deckAdapter: JsonAdapter<Deck>
-        lateinit var deckPreviewAdapter: JsonAdapter<DeckPreview>
-        lateinit var cardAdapter: JsonAdapter<Card>
+
 
         val instance: OwllearnApi by lazy {
             val retrofit: Retrofit = createRetrofit()
@@ -117,9 +140,7 @@ internal interface OwllearnApi {
 
             // Converter
             moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-            deckAdapter = moshi.adapter(Deck::class.java)
-            deckPreviewAdapter = moshi.adapter(DeckPreview::class.java)
-            cardAdapter = moshi.adapter(Card::class.java)
+
             val t = Types.newParameterizedType(List::class.java, DeckPreview::class.java)
             // Logger
             val logging = HttpLoggingInterceptor()

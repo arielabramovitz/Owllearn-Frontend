@@ -29,6 +29,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
+import com.example.owllearn.data.provider.SharedProvider
+import com.example.owllearn.data.viewmodel.SharedViewModel
 import com.example.owllearn.databinding.ActivityMainBinding
 import com.example.owllearn.databinding.FragmentDashboardBinding
 import com.example.owllearn.databinding.NavHeaderMainBinding
@@ -49,18 +51,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var preferences: SharedPreferences
     private var updatedCreds = false
 
-    private val FIRST_NAME = "first_name"
-    private val LAST_NAME = "last_name"
-    private val EMAIL = "email"
-    private val PROFILE_PICTURE = "profile_picture"
-    private val FIRST_TIME = "first_time"
-    private val UID = "user_id"
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val splash = installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         preferences = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
         val drawerLayout: DrawerLayout = binding.drawerLayout

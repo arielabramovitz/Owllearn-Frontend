@@ -14,25 +14,16 @@
             android:id="@+id/action_onboarding_to_dashboard"
             app:destination="@id/nav_dashboard" />
 
-        <argument
-            android:name="front"
-            app:argType="string"
-            android:defaultValue="null"
-            />
 
-        <argument
-            android:name="back"
-            app:argType="string"
-            android:defaultValue="null"
-            />
 
     </fragment>
 
     <fragment
-        android:id="@+id/nav_card_creation"
-        android:name="com.example.owllearn.ui.create_edit_card.CreateAndEditCardFragment"
-        tools:layout="@layout/fragment_create_and_edit_card"
+        android:id="@+id/nav_card_create_edit"
+        android:name="com.example.owllearn.ui.decks.EditCardFragment"
+        tools:layout="@layout/fragment_edit_card"
         >
+
 
     </fragment>
 
@@ -40,7 +31,10 @@
         android:id="@+id/nav_dashboard"
         android:name="com.example.owllearn.ui.dashboard.DashboardFragment"
         android:label="@string/menu_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_decks"
@@ -52,6 +46,64 @@
             android:id="@+id/action_decks_to_card_create_edit"
             app:destination="@id/nav_dashboard" />
 
+        <action
+            android:id="@+id/action_decks_to_deck_create_edit"
+            app:destination="@id/nav_decks_create_edit"
+            >
+            <argument
+                android:name="deckName"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="deckId"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_decks_create_edit"
+        android:name="com.example.owllearn.ui.decks.EditDeckFragment"
+        tools:layout="@layout/fragment_edit_deck">
+
+        <action
+            android:id="@+id/action_decks_edit_to_card_create"
+            app:destination="@id/nav_card_create_edit"
+            >
+
+            <argument
+                android:name="deckId"
+                app:argType="string"
+                />
+
+            <argument
+                android:name="cardId"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="front"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="back"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+        </action>
 
 
     </fragment>

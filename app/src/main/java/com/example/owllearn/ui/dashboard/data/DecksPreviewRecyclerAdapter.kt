@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.owllearn.R
 import com.example.owllearn.databinding.FragmentDashboardBinding
-import com.example.owllearn.ui.dashboard.data.model.DeckPreview
+import com.example.owllearn.data.model.DeckPreview
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData

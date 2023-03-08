@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.create_edit_card.CreateAndEditCardFragment"
+    tools:context=".ui.decks.EditCardFragment"
     android:background="@color/back">
 
     <TextView
@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="Create a new card"
+        android:text="Let's create a new card"
         android:fontFamily="@font/title"
         android:textSize="40sp"
         android:layout_marginTop="20dp"
@@ -47,7 +47,6 @@
             app:layout_constraintStart_toStartOf="@id/card_creation_title"
             app:layout_constraintEnd_toEndOf="@id/card_creation_title"
             app:cardCornerRadius="30dp"
-            android:background="@drawable/box_background"
             android:elevation="10dp"
             >
 
@@ -55,11 +54,11 @@
                 android:id="@+id/card_creation_front_textlayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/box_background"
 
-                android:gravity="center"
                 app:helperText="This text will appear on the front side of the card."
                 app:counterEnabled="true"
-                app:counterMaxLength="300"
+                app:counterMaxLength="200"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -67,6 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:maxLength="300"
+                    android:background="@drawable/box_background"
 
                     />
 
@@ -109,14 +109,13 @@
         app:layout_constraintEnd_toEndOf="@id/card_creation_title"
         app:layout_constraintBottom_toTopOf="@id/card_creation_create_button"
         app:cardCornerRadius="30dp"
-        android:background="@drawable/box_background"
         android:elevation="10dp"
         >
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/card_creation_back_textlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:background="@drawable/box_background"
             android:gravity="center"
             app:helperText="This text will appear on the front side of the card."
             app:counterEnabled="true"
@@ -129,6 +128,7 @@
                 android:layout_height="match_parent"
                 android:maxLength="300"
                 android:shadowColor="@color/purple"
+                android:background="@drawable/box_background"
 
                 />
 
@@ -145,7 +145,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:text="Create"
         android:layout_marginVertical="10dp"
-        android:backgroundTint="@color/purple"
         android:elevation="10dp"
         android:textColor="@color/black"
         />

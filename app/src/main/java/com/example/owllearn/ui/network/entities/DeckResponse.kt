@@ -1,7 +1,7 @@
 package com.example.gallery.network.entities
 
-import com.example.owllearn.ui.decks.data.model.Card
-import com.example.owllearn.ui.decks.data.model.Deck
+import com.example.owllearn.data.model.Card
+import com.example.owllearn.data.model.Deck
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import org.json.JSONObject

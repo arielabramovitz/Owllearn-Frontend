@@ -1,4 +1,4 @@
-package com.example.owllearn.ui.decks.data.model
+package com.example.owllearn.data.model
 
 import android.os.Parcelable
 import com.squareup.moshi.JsonClass
@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class Card(
     val cardId: String,
     val deckId: String,
-    val front: String,
-    val back: String,
+    var front: String,
+    var back: String,
+    var ranking: String = "unmarked"
 ) : Parcelable
