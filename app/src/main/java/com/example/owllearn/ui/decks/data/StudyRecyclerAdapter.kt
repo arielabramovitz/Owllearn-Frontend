@@ -27,11 +27,12 @@ class StudyRecyclerAdapter(private val binding: FragmentStudyBinding) :
     var lastSelectedPos = -1
     private lateinit var itemView: View
     private lateinit var buttonColor: ColorStateList
-
+    private lateinit var hintPlaceHolder: String
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckViewHolder {
         val v: View = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.deck_preview, parent, false)
+        hintPlaceHolder = binding.studySampleSize.hint.toString()
         itemView = v
         buttonColor = binding.studyButtonStart.backgroundTintList!!
         return DeckViewHolder(v)
@@ -50,17 +51,8 @@ class StudyRecyclerAdapter(private val binding: FragmentStudyBinding) :
                 binding.studyButtonStart.backgroundTintList =
                     ColorStateList.valueOf(ContextCompat.getColor(binding.studyDeckCard.context, R.color.purple))
 
-                val input = ObjectAnimator.ofFloat(binding.studySampleSize, "alpha", 1f, 0f)
-                val button = ObjectAnimator.ofFloat(binding.studyButtonStart, "alpha", 1f, 0f)
-                input.duration = 1000
-                button.duration = 1000
 
-                binding.studySampleSize.visibility = View.INVISIBLE
-                binding.studyButtonStart.visibility = View.GONE
-                input.start()
-                button.start()
-                
-
+                fadeOutButton()
                 lastSelectedDeck = null
 
             } else {
@@ -74,20 +66,8 @@ class StudyRecyclerAdapter(private val binding: FragmentStudyBinding) :
                 lastSelectedView = card
                 lastSelectedPos = position
                 lastSelectedDeck = holder.deck
-
-                val input = ObjectAnimator.ofFloat(binding.studySampleSize, "alpha", 0f, 1f)
-                val button = ObjectAnimator.ofFloat(binding.studyButtonStart, "alpha", 0f, 1f)
-                input.duration = 1000
-                button.duration = 1000
-
-                binding.studySampleSize.visibility = View.VISIBLE
-                binding.studyButtonStart.visibility = View.VISIBLE
-                input.start()
-                button.start()
-
-                binding.studySampleSize.visibility = View.VISIBLE
-                binding.studyButtonStart.visibility = View.VISIBLE
-
+                binding.studySampleSize.hint = String.format(hintPlaceHolder, holder.deck?.cards?.size)
+                fadeInButton()
                 binding.studyButtonStart.isClickable = true
                 binding.studyButtonStart.backgroundTintList = buttonColor
             }
@@ -102,6 +82,31 @@ class StudyRecyclerAdapter(private val binding: FragmentStudyBinding) :
             deck = item
             textView.text = item?.deckName
         }
+
+    }
+
+    private fun fadeInButton() {
+        val input = ObjectAnimator.ofFloat(binding.studySampleSize, "alpha", 0f, 1f)
+        val button = ObjectAnimator.ofFloat(binding.studyButtonStart, "alpha", 0f, 1f)
+        input.duration = 1000
+        button.duration = 1000
+        binding.studySampleSize.visibility = View.VISIBLE
+        binding.studyButtonStart.visibility = View.VISIBLE
+        input.start()
+        button.start()
+
+    }
+
+    private fun fadeOutButton() {
+        val input = ObjectAnimator.ofFloat(binding.studySampleSize, "alpha", 1f, 0f)
+        val button = ObjectAnimator.ofFloat(binding.studyButtonStart, "alpha", 1f, 0f)
+        input.duration = 1000
+        button.duration = 1000
+
+        binding.studySampleSize.visibility = View.INVISIBLE
+        binding.studyButtonStart.visibility = View.GONE
+        input.start()
+        button.start()
 
     }
 

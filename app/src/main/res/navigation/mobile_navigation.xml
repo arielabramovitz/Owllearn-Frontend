@@ -112,7 +112,45 @@
         android:id="@+id/nav_study"
         android:name="com.example.owllearn.ui.study.StudySetupFragment"
         android:label="@string/menu_study"
-        tools:layout="@layout/fragment_study" />
+        tools:layout="@layout/fragment_study"
+
+        >
+
+        <action
+            android:id="@+id/action_study_to_study_batch"
+            app:destination="@id/nav_study_batch"
+            >
+
+            <argument
+                android:name="batchSize"
+                app:argType="integer"
+                android:defaultValue="0"
+                />
+
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_study_batch"
+        android:name="com.example.owllearn.ui.study.StudyBatchFragment"
+        tools:layout="@layout/fragment_study_batch">
+
+        <action
+            android:id="@+id/action_study_batch_to_dashboard"
+            app:destination="@id/nav_dashboard"
+            >
+
+        </action>
+
+        <action
+            android:id="@+id/action_study_batch_to_study"
+            app:destination="@id/nav_study"
+            >
+
+        </action>
+
+    </fragment>
 
 
 </navigation>

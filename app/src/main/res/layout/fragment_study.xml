@@ -67,7 +67,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="How many cards max is %s"
+        android:hint="How many cards? max is %s"
         app:endIconMode="clear_text"
         app:endIconTint="@color/black"
         app:shapeAppearance="@style/Rounded"
@@ -80,6 +80,7 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nav_study_batch_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
