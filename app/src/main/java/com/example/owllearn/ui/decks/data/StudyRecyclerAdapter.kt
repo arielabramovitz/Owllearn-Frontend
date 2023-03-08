@@ -28,6 +28,7 @@ class StudyRecyclerAdapter(private val binding: FragmentStudyBinding) :
     private lateinit var itemView: View
     private lateinit var buttonColor: ColorStateList
     private lateinit var hintPlaceHolder: String
+    var selectedDeckId: String? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckViewHolder {
         val v: View = LayoutInflater
             .from(parent.context)
@@ -51,7 +52,7 @@ class StudyRecyclerAdapter(private val binding: FragmentStudyBinding) :
                 binding.studyButtonStart.backgroundTintList =
                     ColorStateList.valueOf(ContextCompat.getColor(binding.studyDeckCard.context, R.color.purple))
 
-
+                selectedDeckId = null
                 fadeOutButton()
                 lastSelectedDeck = null
 
@@ -63,9 +64,11 @@ class StudyRecyclerAdapter(private val binding: FragmentStudyBinding) :
                         R.color.back
                     )
                 )
+
                 lastSelectedView = card
                 lastSelectedPos = position
                 lastSelectedDeck = holder.deck
+                selectedDeckId = holder.deck?.deckId
                 binding.studySampleSize.hint = String.format(hintPlaceHolder, holder.deck?.cards?.size)
                 fadeInButton()
                 binding.studyButtonStart.isClickable = true

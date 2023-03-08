@@ -32,15 +32,6 @@ internal interface OwllearnApi {
         @Query("userId") userId: String
     ): Response<List<Deck>>
 
-    /**
-     * sends a GET request for a single deck
-     */
-    @GET("decks")
-    suspend fun getSingleDeck(
-        @Query("userId") userId: String,
-        @Query("deckId") deckId: String
-    ): Response<Deck>
-
     @POST("decks")
     suspend fun createDeck(
         @Body body: Deck

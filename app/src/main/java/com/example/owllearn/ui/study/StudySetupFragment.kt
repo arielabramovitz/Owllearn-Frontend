@@ -55,17 +55,20 @@ class StudySetupFragment : Fragment() {
         startButton.setOnClickListener {
             if (adapter.lastSelectedDeck != null) {
                 val batchSizeText = binding.navStudyBatchEdittext.text
-                val batchSize = Integer.parseInt(batchSizeText.toString())
-                if (batchSize < adapter.lastSelectedDeck!!.cards.size) {
+                if (batchSizeText!!.isNotEmpty()) {
 
-                    val action = StudySetupFragmentDirections.actionStudyToStudyBatch(batchSize)
-                    findNavController().navigate(action)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Batch size should be smaller than the number of cards in the deck",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    val batchSize = Integer.parseInt(batchSizeText.toString())
+                    if (batchSize < adapter.lastSelectedDeck!!.cards.size) {
+                        sharedViewModel.reloadCards(adapter.selectedDeckId!!)
+                        val action = StudySetupFragmentDirections.actionStudyToStudyBatch(batchSize)
+                        findNavController().navigate(action)
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Batch size should be smaller than the number of cards in the deck",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
 
             }
