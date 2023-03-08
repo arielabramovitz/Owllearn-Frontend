@@ -5,7 +5,7 @@ import com.example.owllearn.data.model.Deck
 import com.example.owllearn.data.model.DeckPreview
 import com.example.owllearn.ui.network.OwllearnApi
 
-class SharedProvider {
+public class SharedProvider {
     private val api = OwllearnApi.instance
     suspend fun getDecks(userId: String): List<Deck>? {
         val response = api.getAllDecks(userId)

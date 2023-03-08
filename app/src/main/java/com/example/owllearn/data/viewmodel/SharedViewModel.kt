@@ -8,11 +8,11 @@ import com.example.owllearn.data.model.Card
 import com.example.owllearn.data.model.Deck
 import com.example.owllearn.data.model.DeckPreview
 import com.example.owllearn.ui.network.SharedProvider
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SharedViewModel : ViewModel() {
-    private val provider = SharedProvider()
+class SharedViewModel(private val dispatcher: CoroutineDispatcher = Dispatchers.IO, private val provider: SharedProvider = SharedProvider()) : ViewModel() {
     private val _currDeck = MutableLiveData<Deck>()
     private val _cards = MutableLiveData<List<Card>>()
     private val _decks = MutableLiveData<List<Deck>>()
@@ -34,16 +34,9 @@ class SharedViewModel : ViewModel() {
     // maps deckId to DeckPreview
     private val decksPreviewMap: MutableMap<String, DeckPreview> = mutableMapOf()
 
-    fun getDeck(deckId: String): Deck? {
-        return decksMap[deckId]
-    }
-
-    fun getCard(cardId: String): Card? {
-        return cardsMap[cardId]
-    }
 
     fun reloadDecks(userId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             val loaded = provider.getDecks(userId)
             if (loaded != null) {
                 _decks.postValue(loaded!!)
@@ -55,7 +48,7 @@ class SharedViewModel : ViewModel() {
     }
 
     fun reloadDeckPreviews(userId: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             val loaded = provider.getDeckPreviews(userId)
             if (loaded != null) {
                 _previews.postValue(loaded!!)
@@ -77,15 +70,6 @@ class SharedViewModel : ViewModel() {
 
     }
 
-    fun addCardToDeck(card: Card, deckId: String) {
-        val deck = decksMap[deckId]
-        val deckPreview = decksPreviewMap[deckId]
-        if (deck != null && deckPreview != null) {
-            deck.cards.add(card)
-            deckPreview.unmarked += 1
-
-        }
-    }
 
     fun createCard(deckId: String, cardId: String, front: String, back: String) {
         val card = Card(cardId, deckId, front, back)
@@ -130,7 +114,7 @@ class SharedViewModel : ViewModel() {
             val d = decks.value!!.toMutableList()
             d.remove(deck)
             _decks.postValue(d)
-            viewModelScope.launch {
+            viewModelScope.launch (dispatcher) {
                 provider.deleteDeck(deck)
             }
         }
@@ -150,7 +134,7 @@ class SharedViewModel : ViewModel() {
 
     // when the save button is clicked in deck edit fragment, we call this (assumes the deck is locally edited
     fun uploadDeck(deckId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch (dispatcher) {
             val deck = decksMap[deckId]
             val deckPreview = decksPreviewMap[deckId]
             provider.putDeck(deck, deckPreview)
@@ -164,7 +148,7 @@ class SharedViewModel : ViewModel() {
         d?.add(deck)
         _decks.postValue(d!!)
         decksMap[deckId] = deck
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(dispatcher) {
             provider.createDeck(deck)
         }
 
