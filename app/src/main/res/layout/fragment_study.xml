@@ -5,17 +5,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.study.StudyFragment"
+    tools:context=".ui.study.StudySetupFragment"
     android:fitsSystemWindows="true"
     android:background="@color/back">
 
     <TextView
+        android:id="@+id/study_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/title"
+        android:textSize="70sp"
+        android:gravity="center"
+        android:text="Ready to study?"
+        android:layout_marginTop="30dp"
         />
-    
+
+    <TextView
+        android:id="@+id/study_under_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/study_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/title"
+        android:textSize="40sp"
+        android:text="Choose a deck:"
+
+
+        />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/study_deck_card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/study_under_title"
+        app:layout_constraintBottom_toTopOf="@+id/study_sample_size"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+
+        app:cardCornerRadius="30dp"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/study_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/box_background"
+            android:padding="5dp"
+            />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/study_sample_size"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="How many cards max is %s"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:shapeAppearance="@style/Rounded"
+        android:layout_marginVertical="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/study_button_start"
+        app:layout_constraintTop_toBottomOf="@+id/study_deck_card"
+        android:visibility="invisible"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/study_button_start"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="40dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:visibility="gone"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

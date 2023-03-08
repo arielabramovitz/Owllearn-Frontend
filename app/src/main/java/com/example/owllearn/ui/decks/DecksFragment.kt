@@ -93,7 +93,7 @@ class DecksFragment : Fragment() {
                 .setPositiveButton("Delete") { dialog, id ->
                     val currSelectedDeck = (binding.decksRecycler.adapter as DecksRecyclerAdapter).lastSelectedDeck
                     if (currSelectedDeck != null) {
-
+                        sharedViewModel.deleteDeck(currSelectedDeck.deckId)
 
                     }
                 }
@@ -125,8 +125,6 @@ class DecksFragment : Fragment() {
                 val deckName = input.text.toString()
                 val deckId = UUID.randomUUID().toString()
                 sharedViewModel.createDeck(userId, deckId, deckName)
-                val deck = sharedViewModel.getDeck(deckId)
-                // TODO: need to check this works.. it should create a deck and then navigate to the deck edit fragment
                 moveToEditDeck(deckId, deckName)
 
                 }

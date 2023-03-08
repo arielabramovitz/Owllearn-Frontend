@@ -25,7 +25,7 @@ import org.json.JSONException
 import java.util.*
 import com.example.owllearn.util.consts
 
-class OnboardingFragment: Fragment() {
+class OnboardingFragment : Fragment() {
 
     private var _binding: FragmentOnboardingBinding? = null
     private val binding get() = _binding!!
@@ -34,7 +34,7 @@ class OnboardingFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
-        if (preferences.getBoolean(consts.FIRST_TIME, true)){
+        if (preferences.getBoolean(consts.FIRST_TIME, true)) {
 
             _binding = FragmentOnboardingBinding.inflate(inflater, container, false)
             val root: View = binding.root
@@ -74,7 +74,8 @@ class OnboardingFragment: Fragment() {
                             .putString(consts.UID, UUID.randomUUID().toString())
                             .apply()
 
-                        preferences.edit().putBoolean(consts.FIRST_TIME, false).putString(consts.UID, UUID.randomUUID().toString()).apply()
+                        preferences.edit().putBoolean(consts.FIRST_TIME, false)
+                            .putString(consts.UID, UUID.randomUUID().toString()).apply()
                     } catch (e: JSONException) {
                         Toast.makeText(
                             context,
@@ -108,7 +109,8 @@ class OnboardingFragment: Fragment() {
         submitButton.setOnClickListener {
             if (verifyForm()) {
                 // TODO: if the form is good, move the user to the dashboard
-                preferences.edit().putBoolean(consts.FIRST_TIME, false).putString(consts.UID, UUID.randomUUID().toString()).apply()
+                preferences.edit().putBoolean(consts.FIRST_TIME, false)
+                    .putString(consts.UID, UUID.randomUUID().toString()).apply()
                 moveToDashboard(null)
             } else {
                 // TODO: check that this toast shows if any of the fields are empty
@@ -119,10 +121,10 @@ class OnboardingFragment: Fragment() {
     }
 
     private fun verifyForm(): Boolean {
-        val firstName = binding.firstNameEdittext
-        val lastName = binding.lastNameEdittext
-        val email = binding.emailEdittext
-        if (firstName.text.isNotEmpty() && lastName.text.isNotEmpty() && email.text.isNotEmpty()) {
+        val firstName = binding.onboardingFirstnameEdit
+        val lastName = binding.onboardingLastnameEdit
+        val email = binding.onboardingEmailEdit
+        if (firstName.text?.isNotEmpty() == true && lastName.text?.isNotEmpty() == true && email.text?.isNotEmpty() == true) {
             preferences.edit()
                 .putString(consts.FIRST_NAME, firstName.text.toString())
                 .putString(consts.LAST_NAME, lastName.text.toString())
@@ -135,7 +137,8 @@ class OnboardingFragment: Fragment() {
 
     fun moveToDashboard(userFirstName: String?) {
         if (userFirstName != null) {
-            view?.findViewById<TextView>(R.id.dashboard_title)?.text = String.format(resources.getString(R.string.title), userFirstName)
+            view?.findViewById<TextView>(R.id.dashboard_title)?.text =
+                String.format(resources.getString(R.string.title), userFirstName)
 
         }
         val action = OnboardingFragmentDirections.actionOnboardingToDashboard()

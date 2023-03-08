@@ -63,6 +63,8 @@ class EditDeckFragment : Fragment() {
         val saveButton = binding.cardsSaveChanges
         saveButton.setOnClickListener {
             sharedViewModel.uploadDeck(deckId!!)
+            changed = false
+            findNavController().navigateUp()
         }
     }
 
@@ -84,9 +86,9 @@ class EditDeckFragment : Fragment() {
         val gridLayoutManager = LinearLayoutManager(context)
         deckEditRecycler.adapter = adapter
         deckEditRecycler.layoutManager = gridLayoutManager
-        sharedViewModel.currDeck.observe(viewLifecycleOwner) {
+        sharedViewModel.cards.observe(viewLifecycleOwner) {
             binding.editDeckProgress.visibility = View.GONE
-            adapter.submitList(it.cards)
+            adapter.submitList(it)
         }
     }
 
@@ -117,8 +119,8 @@ class EditDeckFragment : Fragment() {
         builder.setMessage("Are you sure you want to delete this card?")
             .setCancelable(false)
             .setPositiveButton("Yes") { dialog, id ->
+                binding.cardsSaveChanges.visibility = View.VISIBLE
                 sharedViewModel.deleteCard(card.cardId)
-                changed = true
 
             }
             .setNegativeButton("Cancel") { dialog, id ->

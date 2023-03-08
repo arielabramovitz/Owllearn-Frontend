@@ -21,7 +21,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/title"
         android:text="@string/title"
-        android:textSize="36sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="10dp"
+        android:textSize="40sp"
         android:gravity="center"
         />
 
@@ -30,17 +32,18 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/deck_previews"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dashboard_title"
+        app:layout_constraintBottom_toTopOf="@+id/deck_stats"
         app:cardCornerRadius="30dp"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         app:cardElevation="10dp"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
             android:background="@drawable/box_background"
             >
 
@@ -76,19 +79,20 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/deck_stats"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deck_previews"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
+        android:layout_marginBottom="40dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="10dp"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="match_parent"
             android:background="@drawable/box_background"
 
             >

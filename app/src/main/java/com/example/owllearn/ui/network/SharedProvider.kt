@@ -1,4 +1,4 @@
-package com.example.owllearn.data.provider
+package com.example.owllearn.ui.network
 
 import com.example.gallery.network.entities.ReqBody
 import com.example.owllearn.data.model.Deck
@@ -51,5 +51,12 @@ class SharedProvider {
             }
         }
         return null
+    }
+
+    suspend fun deleteDeck(deck: Deck?) {
+        if (deck != null) {
+            val response = api.deleteDeck(deck.userId, deck.deckId)
+
+        }
     }
 }

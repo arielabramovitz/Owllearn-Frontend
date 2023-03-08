@@ -7,19 +7,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.owllearn.data.model.Card
 import com.example.owllearn.data.model.Deck
 import com.example.owllearn.data.model.DeckPreview
-import com.example.owllearn.data.provider.SharedProvider
-import com.example.owllearn.ui.decks.data.provider.CardsProvider
+import com.example.owllearn.ui.network.SharedProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.*
 
 class SharedViewModel : ViewModel() {
     private val provider = SharedProvider()
     private val _currDeck = MutableLiveData<Deck>()
+    private val _cards = MutableLiveData<List<Card>>()
     private val _decks = MutableLiveData<List<Deck>>()
     private val _previews = MutableLiveData<List<DeckPreview>>()
 
+    val cards: LiveData<List<Card>> = _cards
     val currDeck: LiveData<Deck> = _currDeck
     val decks: LiveData<List<Deck>> = _decks
     val previews: LiveData<List<DeckPreview>> = _previews
@@ -70,6 +69,7 @@ class SharedViewModel : ViewModel() {
         val deck = decksMap[deckId]
         if (deck != null) {
             _currDeck.postValue(deck!!)
+            _cards.postValue(deck.cards.toList())
             val cards = deck.cards
             cards.forEach { cardsMap[it.cardId] = it }
 
@@ -95,6 +95,16 @@ class SharedViewModel : ViewModel() {
             deck.cards.add(card)
             deckPreview.unmarked += 1
 
+            reloadCards(deckId)
+        }
+    }
+
+    private fun changeRank(deckPreview: DeckPreview,rank: String, num: Int) {
+        when (rank) {
+            "unmarked" -> deckPreview.unmarked += num
+            "easy" -> deckPreview.easy += num
+            "medium" -> deckPreview.medium += num
+            "hard" -> deckPreview.hard += num
         }
     }
 
@@ -103,17 +113,13 @@ class SharedViewModel : ViewModel() {
         val deck = decksMap[deckId]
         val deckPreview = decksPreviewMap[deckId]
         if (card != null && deck != null && deckPreview != null) {
-            when (card.ranking) {
-                "unmarked" -> deckPreview.unmarked -= 1
-                "easy" -> deckPreview.easy -= 1
-                "medium" -> deckPreview.medium -= 1
-                "hard" -> deckPreview.hard -= 1
-            }
+            changeRank(deckPreview, card.ranking, -1)
             deckPreview.unmarked += 1
 
             card.ranking = "unmarked"
             card.front = front
             card.back = back
+            reloadCards(deckId)
 
         }
     }
@@ -124,11 +130,21 @@ class SharedViewModel : ViewModel() {
             val d = decks.value!!.toMutableList()
             d.remove(deck)
             _decks.postValue(d)
+            viewModelScope.launch {
+                provider.deleteDeck(deck)
+            }
         }
     }
 
     fun deleteCard(cardId: String) {
         val card = cardsMap[cardId]
+        if (card != null) {
+            val deck = decksMap[card.deckId]!!
+            val deckPreview = decksPreviewMap[card.deckId]
+            changeRank(deckPreview!!, card.ranking, -1)
+            deck.cards.remove(card)
+            reloadCards(deck!!.deckId)
+        }
     }
 
 
@@ -146,6 +162,8 @@ class SharedViewModel : ViewModel() {
         val deck = Deck(deckName, deckId, userId)
         val d = _decks.value?.toMutableList()
         d?.add(deck)
+        _decks.postValue(d!!)
+        decksMap[deckId] = deck
         viewModelScope.launch(Dispatchers.IO) {
             provider.createDeck(deck)
         }

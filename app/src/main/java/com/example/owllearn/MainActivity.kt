@@ -1,48 +1,25 @@
 package com.example.owllearn
 
-import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.BitmapFactory
-import android.graphics.Path.Direction
 import android.os.*
-import android.util.AttributeSet
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
-import android.view.WindowManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.commit
 import com.bumptech.glide.Glide
-import com.example.owllearn.data.provider.SharedProvider
-import com.example.owllearn.data.viewmodel.SharedViewModel
 import com.example.owllearn.databinding.ActivityMainBinding
-import com.example.owllearn.databinding.FragmentDashboardBinding
-import com.example.owllearn.databinding.NavHeaderMainBinding
 import com.example.owllearn.util.consts
 import com.facebook.*
-import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
-import org.json.JSONException
-import org.json.JSONObject
 import java.util.*
-import java.util.prefs.Preferences
-import kotlin.concurrent.fixedRateTimer
 
 class MainActivity : AppCompatActivity() {
 
