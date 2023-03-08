@@ -108,12 +108,10 @@ class OnboardingFragment : Fragment() {
         val submitButton = binding.submitButton
         submitButton.setOnClickListener {
             if (verifyForm()) {
-                // TODO: if the form is good, move the user to the dashboard
                 preferences.edit().putBoolean(consts.FIRST_TIME, false)
                     .putString(consts.UID, UUID.randomUUID().toString()).apply()
                 moveToDashboard(null)
             } else {
-                // TODO: check that this toast shows if any of the fields are empty
                 val badFormToast = Toast.makeText(context, R.string.bad_form, Toast.LENGTH_LONG)
                 badFormToast.show()
             }

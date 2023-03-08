@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.owllearn.data.viewmodel.SharedViewModel
 import com.example.owllearn.databinding.FragmentEditCardBinding
 import com.example.owllearn.ui.network.SharedProvider
+import com.example.owllearn.util.consts
 import java.util.*
 
 class EditCardFragment : Fragment() {
@@ -31,8 +32,7 @@ class EditCardFragment : Fragment() {
         front = arguments?.getString("front", null)
         back = arguments?.getString("back", null)
         val preferences = requireContext().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
-//        val userId = preferences.getString(consts.UID, "")
-        val userId = "user-for-tests"
+        val userId = preferences.getString(consts.UID, "")
         cardProvider = SharedProvider()
         if (cardId != "null") {
             isCreate = false

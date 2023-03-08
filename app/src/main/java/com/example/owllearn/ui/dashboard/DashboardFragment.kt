@@ -31,8 +31,7 @@ class DashboardFragment : Fragment() {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
-//        userId = preferences.getString(consts.UID, null)!!
-        userId = "user-for-tests"
+        userId = preferences.getString(consts.UID, null)!!
         sharedViewModel.reloadDeckPreviews(userId)
         sharedViewModel.reloadDecks(userId)
         val root: View = binding.root

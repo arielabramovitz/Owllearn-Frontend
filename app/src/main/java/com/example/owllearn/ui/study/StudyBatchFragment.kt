@@ -2,27 +2,19 @@ package com.example.owllearn.ui.study
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.TypeEvaluator
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.addListener
-import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.gallery.StudyRecyclerAdapter
 import com.example.owllearn.data.model.Card
 import com.example.owllearn.data.viewmodel.SharedViewModel
 import com.example.owllearn.databinding.FragmentStudyBatchBinding
-import com.example.owllearn.databinding.FragmentStudyBinding
 import com.example.owllearn.util.consts
 
 class StudyBatchFragment : Fragment() {

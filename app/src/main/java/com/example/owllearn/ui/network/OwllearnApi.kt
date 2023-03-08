@@ -1,4 +1,5 @@
 package com.example.owllearn.ui.network
+
 import com.example.gallery.network.entities.ReqBody
 import com.example.owllearn.data.model.DeckPreview
 import com.example.owllearn.data.model.Card
@@ -48,42 +49,6 @@ internal interface OwllearnApi {
         @Body body: ReqBody
     ): Response<Deck>
 
-    /**
-     * sends a GET request for all cards belonging to a user
-     */
-    @GET("cards")
-    suspend fun getAllCards(
-        @Query("userId") userId: String
-    ): Response<List<Card>>
-
-    /**
-     * sends a GET request for a single card
-     */
-    @GET("cards")
-    suspend fun getSingleCard(
-        @Query("userId") userId: String,
-        @Query("deckId") deckId: String,
-        @Query("cardId") cardId: String
-    ): Response<Card>
-
-    @POST("cards")
-    suspend fun createCard(
-        @Query("userId") userId: String,
-        @Body body: Card
-    ): Response<Card>
-
-    @DELETE("cards")
-    suspend fun deleteCard(
-        @Query("userId") userId: String,
-        @Query("deckId") deckId: String,
-        @Query("cardId") cardId: String
-    ): ResponseBody
-
-    @PUT("cards")
-    suspend fun editCard(
-        @Query("userId") userId: String,
-        @Body body: Card
-    ): Response<Card>
 
     /**
      * sends a GET request for all deck previews belonging to a user
@@ -92,22 +57,6 @@ internal interface OwllearnApi {
     suspend fun getAllDeckPreviews(
         @Query("userId") userId: String
     ): Response<List<DeckPreview>>
-
-    @GET("deck-previews")
-    suspend fun getSingleDeckPreviews(
-        @Query("userId") userId: String
-    ): Response<DeckPreview>
-
-    @POST("deck-previews")
-    suspend fun createDeckPreview(
-        @Body body: DeckPreview
-    ): Response<DeckPreview>
-
-    @DELETE("deck-previews")
-    suspend fun deleteCDeckPreview(
-        @Query("deckId") deckId: String,
-        @Query("cardId") cardId: String
-    ): ResponseBody
 
     @PUT("deck-previews")
     suspend fun editDeckPreview(

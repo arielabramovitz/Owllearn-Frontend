@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,9 +20,7 @@ import com.example.gallery.DecksRecyclerAdapter
 import com.example.owllearn.R
 import com.example.owllearn.data.viewmodel.SharedViewModel
 import com.example.owllearn.databinding.FragmentDecksBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import com.example.owllearn.util.consts
 import java.util.*
 
 
@@ -39,8 +36,7 @@ class DecksFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDecksBinding.inflate(inflater, container, false)
         preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
-//        userId = preferences.getString(consts.UID, null)!!
-        userId = "user-for-tests"
+        userId = preferences.getString(consts.UID, null)!!
         deckRecycler = binding.decksRecycler
         setupRecyclerView()
         binding.decksEditButton.isClickable = false
