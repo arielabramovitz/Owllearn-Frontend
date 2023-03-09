@@ -43,7 +43,7 @@ class OnboardingFragment : Fragment() {
             initFacebook()
             return root
         }
-        moveToDashboard(null)
+        moveToDashboard(null, null, null, null, null)
 
         return view
     }
@@ -58,24 +58,26 @@ class OnboardingFragment : Fragment() {
             override fun onSuccess(loginResult: LoginResult) {
                 val token = loginResult.accessToken
                 var userFirstName = ""
+                var userId: String? = null
+                var userLastName = ""
+                var userEmail = ""
+                var userPic: String? = null
                 val request = GraphRequest.newMeRequest(token) { obj, response ->
                     try {
                         val email = obj!!.getString("email")
                         userFirstName = obj.getString("first_name")
-                        val userLastName = obj.getString("last_name")
-                        val profilePic = obj.getJSONObject("picture").getJSONObject("data").getString("url")
-
+                        userLastName = obj.getString("last_name")
+                        userPic = obj.getJSONObject("picture").getJSONObject("data").getString("url")
+                        userId = UUID.randomUUID().toString()
                         preferences.edit()
                             .putString(consts.FIRST_NAME, userFirstName)
                             .putString(consts.LAST_NAME, userLastName)
                             .putString(consts.EMAIL, email)
-                            .putString(consts.PROFILE_PICTURE, profilePic)
+                            .putString(consts.PROFILE_PICTURE, userPic)
                             .putBoolean(consts.FIRST_TIME, false)
-                            .putString(consts.UID, UUID.randomUUID().toString())
+                            .putString(consts.UID, userId)
                             .apply()
 
-                        preferences.edit().putBoolean(consts.FIRST_TIME, false)
-                            .putString(consts.UID, UUID.randomUUID().toString()).apply()
                     } catch (e: JSONException) {
                         Toast.makeText(
                             context,
@@ -90,7 +92,7 @@ class OnboardingFragment : Fragment() {
                 request.parameters = parameters
                 request.executeAsync()
                 // move to dashboard
-                moveToDashboard(userFirstName)
+                moveToDashboard(userId, userFirstName, userLastName, userEmail, userPic)
             }
 
             override fun onCancel() {
@@ -107,10 +109,24 @@ class OnboardingFragment : Fragment() {
     private fun initForm() {
         val submitButton = binding.submitButton
         submitButton.setOnClickListener {
-            if (verifyForm()) {
+            var cont = false
+
+            val firstName = binding.onboardingFirstnameEdit
+            val lastName = binding.onboardingLastnameEdit
+            val email = binding.onboardingEmailEdit
+            val userId = UUID.randomUUID().toString()
+            if (firstName.text?.isNotEmpty() == true && lastName.text?.isNotEmpty() == true && email.text?.isNotEmpty() == true) {
+                preferences.edit()
+                    .putString(consts.FIRST_NAME, firstName.text.toString())
+                    .putString(consts.LAST_NAME, lastName.text.toString())
+                    .putString(consts.EMAIL, email.text.toString())
+                    .apply()
+                cont = true
+            }
+            if (cont) {
                 preferences.edit().putBoolean(consts.FIRST_TIME, false)
-                    .putString(consts.UID, UUID.randomUUID().toString()).apply()
-                moveToDashboard(null)
+                    .putString(consts.UID, userId).apply()
+                moveToDashboard(userId, firstName.toString(), lastName.toString(), email.toString(), null)
             } else {
                 val badFormToast = Toast.makeText(context, R.string.bad_form, Toast.LENGTH_LONG)
                 badFormToast.show()
@@ -133,13 +149,25 @@ class OnboardingFragment : Fragment() {
         return false
     }
 
-    fun moveToDashboard(userFirstName: String?) {
+    fun moveToDashboard(
+        userId: String?,
+        userFirstName: String?,
+        userLastName: String?,
+        userEmail: String?,
+        userPic: String?
+    ) {
         if (userFirstName != null) {
             view?.findViewById<TextView>(R.id.dashboard_title)?.text =
                 String.format(resources.getString(R.string.title), userFirstName)
 
         }
-        val action = OnboardingFragmentDirections.actionOnboardingToDashboard()
+        val action = OnboardingFragmentDirections.actionOnboardingToDashboard(
+            userId = userId.toString(),
+            firstName = userFirstName.toString(),
+            lastName = userLastName.toString(),
+            userEmail = userEmail.toString(),
+            userPic = userPic.toString()
+        )
         findNavController().navigate(action)
     }
 

@@ -78,8 +78,8 @@ class SharedViewModel(private val dispatcher: CoroutineDispatcher = Dispatchers.
         if (deck != null && deckPreview != null) {
             deck.cards.add(card)
             deckPreview.unmarked += 1
-
             reloadCards(deckId)
+
         }
     }
 
@@ -150,6 +150,8 @@ class SharedViewModel(private val dispatcher: CoroutineDispatcher = Dispatchers.
         decksMap[deckId] = deck
         viewModelScope.launch(dispatcher) {
             provider.createDeck(deck)
+            reloadDecks(userId)
+            reloadDeckPreviews(userId)
         }
 
     }

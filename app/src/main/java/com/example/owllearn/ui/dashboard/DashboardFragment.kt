@@ -31,13 +31,17 @@ class DashboardFragment : Fragment() {
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         preferences = requireActivity().getSharedPreferences("PREFERENCE", AppCompatActivity.MODE_PRIVATE)
-        userId = preferences.getString(consts.UID, null)!!
+        userId = preferences.getString(consts.UID, arguments?.getString("userId")).toString()
         sharedViewModel.reloadDeckPreviews(userId)
         sharedViewModel.reloadDecks(userId)
         val root: View = binding.root
 
 
-        val userFirstName = preferences.getString(consts.FIRST_NAME, getString(R.string.username))
+        var userFirstName = preferences.getString(consts.FIRST_NAME, getString(R.string.username))
+        if (userFirstName == "user") {
+            userFirstName = arguments?.getString("userFirstName", "user")
+        }
+
 
         binding.dashboardTitle.text = String.format(resources.getString(R.string.title), userFirstName)
 

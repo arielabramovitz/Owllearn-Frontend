@@ -49,8 +49,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
-
-        val listener =  object: DrawerLayout.SimpleDrawerListener() {
+        val listener = object : DrawerLayout.SimpleDrawerListener() {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 if (!updatedCreds) {
                     updatedCreds = true

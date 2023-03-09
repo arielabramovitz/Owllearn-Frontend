@@ -12,7 +12,40 @@
         >
         <action
             android:id="@+id/action_onboarding_to_dashboard"
-            app:destination="@id/nav_dashboard" />
+            app:destination="@id/nav_dashboard">
+
+            <argument
+                android:name="userId"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="firstName"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="lastName"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="userEmail"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+            <argument
+                android:name="userPic"
+                app:argType="string"
+                android:defaultValue="null"
+                />
+
+
+        </action>
 
 
 
