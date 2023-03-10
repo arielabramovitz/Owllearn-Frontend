@@ -92,15 +92,6 @@ class DeckPreviewAdapter(private val binding: FragmentDashboardBinding) :
             pieChart = binding.previewPieChart
             pieChartHolder = binding.previewStats
         }
-//        if (position == 0) {
-//            card.setCardBackgroundColor(ContextCompat.getColor(binding.deckPreviews.context, R.color.selected))
-//            lastSelectedView = card
-//            pieChartHolder?.visibility = VISIBLE
-//            fillPieChart(getItem(position))
-//            pieChart!!.animateXY(1000, 1000, Easing.EaseInSine, Easing.EaseInSine)
-//
-//
-//        }
 
         holder.itemView.setOnClickListener {
             if (position == lastSelectedPos) {

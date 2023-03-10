@@ -34,17 +34,14 @@ class DashboardFragment : Fragment() {
         userId = preferences.getString(consts.UID, arguments?.getString("userId")).toString()
         sharedViewModel.reloadDeckPreviews(userId)
         sharedViewModel.reloadDecks(userId)
-        val root: View = binding.root
 
 
-        var userFirstName = preferences.getString(consts.FIRST_NAME, getString(R.string.username))
-        if (userFirstName == "user") {
-            userFirstName = arguments?.getString("userFirstName", "user")
-        }
+        val userFirstName = arguments?.getString(consts.FIRST_NAME, "user")
 
 
         binding.dashboardTitle.text = String.format(resources.getString(R.string.title), userFirstName)
 
+        val root: View = binding.root
         deckPreviewRecycler = binding.deckPreviewsRecycler
         setupDecksPreviewRecycler()
         disableBack()
@@ -55,6 +52,8 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val userFirstName = preferences.getString(consts.FIRST_NAME, getString(R.string.username))
+        sharedViewModel.reloadDeckPreviews(userId)
+
         binding.dashboardTitle.text = String.format(resources.getString(R.string.title), userFirstName)
         binding.root.findViewById<DrawerLayout>(R.id.drawer_layout)?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 

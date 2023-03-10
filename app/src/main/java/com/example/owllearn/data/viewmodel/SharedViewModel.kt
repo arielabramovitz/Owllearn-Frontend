@@ -34,6 +34,9 @@ class SharedViewModel(private val dispatcher: CoroutineDispatcher = Dispatchers.
     // maps deckId to DeckPreview
     private val decksPreviewMap: MutableMap<String, DeckPreview> = mutableMapOf()
 
+    fun getPreview(deckId: String): DeckPreview? {
+        return decksPreviewMap[deckId]
+    }
 
     fun reloadDecks(userId: String) {
         viewModelScope.launch(dispatcher) {
@@ -134,11 +137,19 @@ class SharedViewModel(private val dispatcher: CoroutineDispatcher = Dispatchers.
 
     // when the save button is clicked in deck edit fragment, we call this (assumes the deck is locally edited
     fun uploadDeck(deckId: String) {
+        val deck = decksMap[deckId]
+        val deckPreview = decksPreviewMap[deckId]
         viewModelScope.launch (dispatcher) {
-            val deck = decksMap[deckId]
-            val deckPreview = decksPreviewMap[deckId]
             provider.putDeck(deck, deckPreview)
-            provider.putDeckPreview(deckPreview)
+            provider.putDeckPreview(null ,deckPreview)
+        }
+    }
+
+    fun uploadPreview(deckId: String, cards: List<Card>) {
+        val deckPreview = decksPreviewMap[deckId]
+        viewModelScope.launch(dispatcher) {
+            provider.putDeckPreview(cards, deckPreview)
+            reloadDeckPreviews(deckPreview!!.userId)
         }
     }
 

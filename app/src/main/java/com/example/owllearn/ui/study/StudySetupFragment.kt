@@ -58,7 +58,7 @@ class StudySetupFragment : Fragment() {
                 if (batchSizeText!!.isNotEmpty()) {
 
                     val batchSize = Integer.parseInt(batchSizeText.toString())
-                    if (batchSize < adapter.lastSelectedDeck!!.cards.size) {
+                    if (batchSize <= adapter.lastSelectedDeck!!.cards.size) {
                         sharedViewModel.reloadCards(adapter.selectedDeckId!!)
                         val action = StudySetupFragmentDirections.actionStudyToStudyBatch(batchSize)
                         findNavController().navigate(action)

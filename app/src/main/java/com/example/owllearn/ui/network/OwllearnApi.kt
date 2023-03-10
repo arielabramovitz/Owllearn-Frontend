@@ -1,10 +1,9 @@
 package com.example.owllearn.ui.network
 
-import com.example.gallery.network.entities.ReqBody
+import com.example.gallery.network.entities.ReqBodyDeck
+import com.example.gallery.network.entities.ReqBodyPreview
 import com.example.owllearn.data.model.DeckPreview
-import com.example.owllearn.data.model.Card
 import com.example.owllearn.data.model.Deck
-import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -46,7 +45,7 @@ internal interface OwllearnApi {
 
     @PUT("decks")
     suspend fun editDeck(
-        @Body body: ReqBody
+        @Body body: ReqBodyDeck
     ): Response<Deck>
 
 
@@ -60,7 +59,7 @@ internal interface OwllearnApi {
 
     @PUT("deck-previews")
     suspend fun editDeckPreview(
-        @Body body: DeckPreview
+        @Body body: ReqBodyPreview
     ): Response<DeckPreview>
 
     /**

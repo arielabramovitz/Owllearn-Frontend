@@ -1,14 +1,16 @@
 package com.example.owllearn.ui.network
 
-import com.example.gallery.network.entities.ReqBody
+import com.example.gallery.network.entities.ReqBodyDeck
+import com.example.gallery.network.entities.ReqBodyPreview
+import com.example.owllearn.data.model.Card
 import com.example.owllearn.data.model.Deck
 import com.example.owllearn.data.model.DeckPreview
-import com.example.owllearn.ui.network.OwllearnApi
 
 public class SharedProvider {
     private val api = OwllearnApi.instance
     suspend fun getDecks(userId: String): List<Deck>? {
         val response = api.getAllDecks(userId)
+        println("getDecksCalled")
         if (response.isSuccessful && response.body() != null) {
             return response.body()
         }
@@ -17,6 +19,8 @@ public class SharedProvider {
 
     suspend fun getDeckPreviews(userId: String): List<DeckPreview>? {
         val response = api.getAllDeckPreviews(userId)
+        println("getDeckPreviewsCalled")
+
         if (response.isSuccessful && response.body() != null) {
             return response.body()
         }
@@ -25,7 +29,7 @@ public class SharedProvider {
 
     suspend fun putDeck(deck: Deck?, deckPreview: DeckPreview?): Deck? {
         if (deck != null && deckPreview != null) {
-            val response = api.editDeck(ReqBody(deck, deckPreview))
+            val response = api.editDeck(ReqBodyDeck(deck, deckPreview))
             if (response.isSuccessful && response.body() != null) {
                 return response.body()
             }
@@ -33,9 +37,9 @@ public class SharedProvider {
         return null
     }
 
-    suspend fun putDeckPreview(deckPreview: DeckPreview?): DeckPreview? {
+    suspend fun putDeckPreview(cards: List<Card>?, deckPreview: DeckPreview?): DeckPreview? {
         if (deckPreview != null) {
-            val response = api.editDeckPreview(deckPreview!!)
+            val response = api.editDeckPreview(ReqBodyPreview(deckPreview, cards))
             if (response.isSuccessful && response.body() != null) {
                 return response.body()
             }
@@ -59,4 +63,5 @@ public class SharedProvider {
 
         }
     }
-}
+
+    }
